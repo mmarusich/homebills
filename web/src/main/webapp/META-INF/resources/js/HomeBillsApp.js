@@ -9,7 +9,9 @@ Ext.application({
     stores: [],
     controllers: [
         'BillsGridController',
-        'CategoryListController'
+        'CategoryListController',
+        'BillWindowController',
+        'ProductWindowController'
     ],
     requires: [
         'HomeBills.util.Utils'

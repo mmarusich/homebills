@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ProductDao {
 
-    List<Product> findByCategoryId(long categoryId, String query);
+    List<Product> findByCategoryId(long categoryId, String query, int limit);
 
     List<Product> findByName(long categoryId, String name);
 

@@ -1,9 +1,7 @@
 package com.homebills.app.component.handler.impl;
 
-import com.homebills.app.component.dataaccess.CategoryDao;
 import com.homebills.app.component.dataaccess.ProductDao;
 import com.homebills.app.component.handler.ProductHandler;
-import com.homebills.entities.base.Category;
 import com.homebills.entities.base.Product;
 import com.homebills.entities.representation.ProductRO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +18,11 @@ public class ProductHandlerImpl implements ProductHandler {
 
     @Autowired
     private ProductDao productDao;
-    @Autowired
-    private CategoryDao categoryDao;
 
     @Override
-    public List<ProductRO> getByCategoryId(long categoryId, String query) {
+    public List<ProductRO> getByCategoryId(long categoryId, String query, int limit) {
         List<ProductRO> result = new ArrayList<>();
-        List<Product> products = productDao.findByCategoryId(categoryId, query);
+        List<Product> products = productDao.findByCategoryId(categoryId, query, limit);
         for (Product product : products) {
             result.add(new ProductRO(product));
         }
@@ -37,13 +33,11 @@ public class ProductHandlerImpl implements ProductHandler {
     public ProductRO save(ProductRO productRO) {
         Product product = new Product();
         product.setName(productRO.getName());
-        Category category = categoryDao.findById(productRO.getCategoryId());
-        product.setCategory(category);
+        product.setCategoryId(productRO.getCategoryId());
         long id = productDao.store(product);
         productRO.setId(id);
         return productRO;
     }
-
 
 
     @Override

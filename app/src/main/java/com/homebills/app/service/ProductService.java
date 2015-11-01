@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ProductService {
 
-    List<ProductRO> getByCategoryId(long categoryId, String query);
+    List<ProductRO> getByCategoryId(long categoryId, String query, int limit);
 
     ProductRO save(ProductRO productRO);
 

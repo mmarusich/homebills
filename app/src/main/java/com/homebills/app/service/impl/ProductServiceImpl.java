@@ -18,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductHandler productHandler;
 
     @Override
-    public List<ProductRO> getByCategoryId(long categoryId, String query) {
-        return productHandler.getByCategoryId(categoryId, query);
+    public List<ProductRO> getByCategoryId(long categoryId, String query, int limit) {
+        return productHandler.getByCategoryId(categoryId, query, limit);
     }
 
     @Override

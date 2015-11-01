@@ -21,8 +21,8 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.GET)
     public
     @ResponseBody
-    List<ProductRO> getByCategoryId(@RequestParam long categoryId, @RequestParam String query) {
-        return productService.getByCategoryId(categoryId, query);
+    List<ProductRO> getByCategoryId(@RequestParam long categoryId, @RequestParam String query, @RequestParam int limit) {
+        return productService.getByCategoryId(categoryId, query, limit);
     }
 
     @RequestMapping(value = "/checkName", method = RequestMethod.GET)
