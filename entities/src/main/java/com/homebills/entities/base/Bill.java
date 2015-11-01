@@ -11,7 +11,8 @@ import java.util.Date;
 public class Bill implements Serializable {
 
     private long id;
-    private Product product;
+    private long productId;
+    private long categoryId;
     private double cost;
     private Date createDate;
 
@@ -25,14 +26,20 @@ public class Bill implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    public Product getProduct() {
-        return product;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public double getCost() {

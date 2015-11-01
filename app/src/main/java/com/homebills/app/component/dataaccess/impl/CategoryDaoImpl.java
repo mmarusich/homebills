@@ -23,7 +23,7 @@ public class CategoryDaoImpl extends AbstractHibernateDAO<Category> implements C
     }
 
     public long store(Category category) {
-        return super.save(category);
+        return super.doSave(category);
     }
 
     @Override

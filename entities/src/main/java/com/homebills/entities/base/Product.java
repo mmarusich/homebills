@@ -1,6 +1,9 @@
 package com.homebills.entities.base;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -11,7 +14,7 @@ public class Product implements Serializable {
 
     private long id;
     private String name;
-    private Category category;
+    private long categoryId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,13 +34,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
-    public Category getCategory() {
-        return category;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 }

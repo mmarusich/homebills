@@ -19,7 +19,7 @@ public class ProductRO implements Serializable {
     public ProductRO(Product product) {
         this.id = product.getId();
         this.name = product.getName();
-        this.categoryId = product.getCategory().getId();
+        this.categoryId = product.getCategoryId();
     }
 
     public long getId() {

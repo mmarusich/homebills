@@ -12,22 +12,23 @@ import java.util.List;
 @Repository("productDao")
 public class ProductDaoImpl extends AbstractHibernateDAO<Product> implements ProductDao {
 
-    private static final String GET_BY_CATEGORY_ID_SQL = "FROM " + Product.class.getName() + " WHERE category.id = :categoryId AND name LIKE :query";
+    private static final String GET_BY_CATEGORY_ID_SQL = "FROM " + Product.class.getName() + " WHERE categoryId = :categoryId AND name LIKE :query";
 
     public ProductDaoImpl() {
         super(Product.class);
     }
 
     @Override
-    public List<Product> findByCategoryId(long categoryId, String query) {
+    public List<Product> findByCategoryId(long categoryId, String query, int limit) {
         return executeQuery(getCurrentSession().createQuery(GET_BY_CATEGORY_ID_SQL)
                 .setLong("categoryId", categoryId)
-                .setString("query", "%" + query + "%"));
+                .setString("query", "%" + query + "%")
+                .setMaxResults(limit));
     }
 
     @Override
     public long store(Product product) {
-        return save(product);
+        return doSave(product);
     }
 
     @Override

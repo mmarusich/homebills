@@ -24,7 +24,7 @@ public class AbstractHibernateDAO<T extends Serializable> {
         this.cls = cls;
     }
 
-    public long save(final T entity) {
+    public long doSave(final T entity) {
         return (Long) this.getCurrentSession().save(entity);
     }
 
