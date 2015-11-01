@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                    http://www.springframework.org/schema/security
+                    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <global-method-security secured-annotations="enabled"/>
+
+    <http pattern="/login.html" security="none"/>
+    <http pattern="/extjs/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+    <http pattern="/css/**" security="none"/>
+    <http pattern="/images/**" security="none"/>
+
+    <http auto-config="false" entry-point-ref="authenticationEntryPoint">
+        <intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN" />
+        <logout logout-url="/logout"/>
+        <custom-filter position="FORM_LOGIN_FILTER" ref="customUsernamePasswordAuthenticationFilter"/>
+    </http>
+
+    <beans:bean id="authenticationEntryPoint"
+                class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/login.html"/>
+    </beans:bean>
+
+    <beans:bean id="customUsernamePasswordAuthenticationFilter"
+                class="com.homebills.web.login.CustomAuthenticationProcessingFilter">
+        <beans:constructor-arg name="defaultFailureUrl" value="/login.html"/>
+        <beans:constructor-arg name="defaultTargetUrl" value="/index.jsp"/>
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
+    <beans:bean id="customUserDetailsService"
+                class="com.homebills.web.login.CustomUserDetailsService">
+        <beans:property name="dataSource" ref="dataSource"/>
+    </beans:bean>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="customUserDetailsService">
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

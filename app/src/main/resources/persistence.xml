@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+    <context:property-placeholder location="classpath*:properties/*.properties"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${app.jdbc.driver}"/>
+        <property name="url" value="${app.jdbc.url}"/>
+        <property name="username" value="${app.jdbc.username}"/>
+        <property name="password" value="${app.jdbc.password}"/>
+        <property name="defaultAutoCommit" value="false"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="initialSize" value="20"/>
+        <property name="maxIdle" value="20"/>
+        <property name="maxActive" value="65"/>
+        <property name="maxWait" value="120000"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="defaultTransactionIsolation">
+            <util:constant static-field="java.sql.Connection.TRANSACTION_READ_COMMITTED"/>
+        </property>
+    </bean>
+
+    <bean id="sessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.homebills"/>
+        <property name="namingStrategy" ref="namingStrategy"/>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <aop:pointcut id="daoOperation"
+                      expression="execution(* com.homebills.app.component.dataaccess.impl.*.*(..))"/>
+        <aop:pointcut id="serviceOperation"
+                      expression="execution(* com.homebills.app.service.impl.*ServiceImpl.*(..))"/>
+        <aop:pointcut id="handlerOperation"
+                      expression="execution(* com.homebills.app.component.handler.impl.*HandlerImpl.*(..))"/>
+
+        <aop:advisor pointcut-ref="daoOperation" advice-ref="daoTxAdvice"/>
+        <aop:advisor pointcut-ref="serviceOperation" advice-ref="logicAdvice"/>
+        <aop:advisor pointcut-ref="handlerOperation" advice-ref="logicAdvice"/>
+
+    </aop:config>
+
+    <tx:advice id="daoTxAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" propagation="REQUIRED"/>
+            <tx:method name="*" read-only="false" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:advice id="logicAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" read-only="false" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <tx:advice id="noTxAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="NOT_SUPPORTED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <context:annotation-config/>
+</beans>

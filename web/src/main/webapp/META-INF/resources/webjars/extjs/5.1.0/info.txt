@@ -1,0 +1,4 @@
+This folder is reserved for ExtJS unpacking and mapped in web-context.xml as resource.
+Do not modify this folder and don't delete.
+
+@author Maxim Marusich

@@ -1,0 +1,81 @@
+.bills-search-button {
+    margin-top: 12px !important;
+}
+
+.login-page {
+    background: url(../images/bg.jpg) 0 0 repeat;
+}
+
+.login-form-wrapper {
+    border-radius: 9px;
+    margin: 150px auto;
+    background: url(../images/form-bg.png) 0 0 repeat;
+}
+
+.login-form .x-panel-header {
+    background: url(../images/bg_form.jpg) 0 0 repeat-x;
+    padding: 14px 9px 15px 20px;
+}
+
+.login-form .x-panel-header .x-title-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555555;
+    font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.login-form {
+    border-radius: 4px;
+}
+
+.login-form input {
+    height: 33px;
+    padding: 0 10px 0 10px;
+    border: 1px solid #bec2c4;
+    border-radius: 2px;
+    font: 13px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.login-form .x-form-text-field-body {
+    box-shadow: 0px 0px 0px 4px #f2f5f7;
+    border-radius: 2px;
+}
+
+.login-form .x-box-inner {
+    overflow: visible;
+}
+
+.login-form .x-form-trigger-wrap-invalid input {
+    border: 1px solid #cf4c35;
+}
+
+.login-form .login_form_input .x-form-trigger-wrap-default {
+    border-style: none;
+}
+
+.category-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list li {
+    line-height: 25px;
+    padding-left: 10px;
+    cursor: pointer;
+
+}
+
+.category-list li.x-item-selected {
+    background-color: #58AEEC;
+    color: #fff;
+}
+
+*:focus {
+    outline: 0 !important;
+}
+
+.category-list li:hover:not(.x-item-selected){
+    background-color: #e4e4e4;
+}
