@@ -42,7 +42,7 @@ Ext.define('HomeBills.controller.BillWindowController', {
         if(window.isValid()){
             window.el.mask('Создание...');
             var value = window.getValue();
-            var model = Ext.create('HomeBills.model.BillsGridModel', value);
+            var model = Ext.create('HomeBills.model.BillModel', value);
             model.set('categoryId', me.getCategoryId());
             model.save({
                 callback: function (records, operation, success) {
