@@ -14,7 +14,8 @@ Ext.application({
         'ProductWindowController'
     ],
     requires: [
-        'HomeBills.util.Utils'
+        'HomeBills.util.Utils',
+        'HomeBills.model.BillModel'
     ],
     autoCreateViewport: true,
     launch: function () {
