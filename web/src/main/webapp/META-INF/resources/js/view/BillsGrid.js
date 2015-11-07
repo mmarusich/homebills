@@ -6,6 +6,12 @@ Ext.define('HomeBills.view.BillsGrid.js', {
     features: [{
         ftype: 'summary'
     }],
+    selectionModel : {
+        mode : 'SINGLE'
+
+    },
+    selType : 'checkboxmodel',
+    columnLines: true,
     tbar: {
         padding: 0,
         items: [
@@ -33,26 +39,32 @@ Ext.define('HomeBills.view.BillsGrid.js', {
         items: [
             {
                 text: 'Наименование Товара',
-                dataIndex: 'name',
+                dataIndex: 'productName',
                 width: 300
             },
             {
                 text: 'Дата Покупки',
                 dataIndex: 'createDate',
-                width: 150
+                width: 150,
+                renderer : function(value){
+                    return Ext.util.Format.date(new Date(value), 'Y-m-d');
+                }
             },
             {
                 text: 'Категория',
-                dataIndex: 'category',
+                dataIndex: 'categoryName',
                 width: 200
             },
             {
-                text: 'Сума',
+                text: 'Цена',
                 dataIndex: 'cost',
                 flex: 1,
-                summaryType: 'count',
+                summaryType: 'sum',
                 summaryRenderer: function (value, summaryData, dataIndex) {
-                    return Ext.String.format('{0} student{1}', value, value !== 1 ? 's' : '');
+                    return 'Сума: ' + Ext.util.Format.number(value, '0.00') + ' грн.'
+                },
+                renderer : function(value){
+                    return Ext.util.Format.number(value, '0.00') + ' грн.';
                 }
             }
         ]

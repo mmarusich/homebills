@@ -79,3 +79,8 @@
 .category-list li:hover:not(.x-item-selected){
     background-color: #e4e4e4;
 }
+
+.x-grid-row-summary .x-grid-cell-last {
+    background-color: #157fcc !important;
+    color: #fff;
+}
